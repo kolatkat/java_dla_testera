@@ -4,18 +4,18 @@ public class PC extends Computer {
 
     private boolean isTurnOn;
 
-    public PC(String name, String type, int hdd, int ram, boolean isTurnOn) {
+    public PC(String name, String type, int hdd, int ram) {
         super(name, type, hdd, ram);
-        this.isTurnOn = isTurnOn;
+        isTurnOn = false;
     }
 
     @Override
     public void switchOn() {
         System.out.println("Checking power supply");
-        if (isTurnOn == true) {
+        if (isTurnOn) {
             super.switchOn();
         } else {
-            System.out.println("Komputer wyłączony");
+            System.out.println("Power supply missing!");
         }
     }
 

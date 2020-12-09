@@ -8,11 +8,15 @@ public class MainApp {
 
     public static void main(String[] args){
 
-        PC officeComputer = new PC("Office compuetr", "HP", 500, 128, false );
+        PC officeComputer = new PC("Office compuetr", "HP", 500, 128);
         Laptop gamingLaptop = new Laptop("XGames", "HP GAMES", 500, 256, 50);
 
         gamingLaptop.setBatteryLevel(0);
 
+        officeComputer.switchOn();
+        System.out.println(officeComputer.getState());
+
+        officeComputer.setIsTurnOn(true);
         officeComputer.switchOn();
         System.out.println(officeComputer.getState());
 
