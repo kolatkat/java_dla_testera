@@ -1,24 +1,33 @@
 import computer.Computer;
+import computer.Hdd;
 import computer.Laptop;
-import computer.PC;
+import computer.Ram;
+import model.Bug;
+import model.BugReporter;
 
 
 public class MainApp {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
-        Laptop laptop = new Laptop("XGames", "HP GAMES", 500, 256, 50);
+        Hdd hdd = new Hdd("Samsung", 500);
+        Ram ram = new Ram("AAA", 128);
 
-        laptop.playMusic();
-        laptop.pauseMusic();
-        laptop.stopMusic();
+        Computer mac = new Laptop("Mac", "PRO", hdd, ram, 100);
 
-        laptop.sayHelloMusic();
+        // Inny sposób tworzenia obiektu Computer
+        // Computer mac = new Laptop("Mac", "PRO", hdd, new Ram("AAA", 128), 100)
 
-        laptop.playVideo();
-        laptop.pauseVideo();
-        laptop.stopVideo();
+        System.out.println(mac.getRam().getSize());
 
-        laptop.sayHelloFromVideo();
+
+        BugReporter bugReporter = new BugReporter("Kasia", "Testerka", "kasia@test.pl");
+        Bug bug = new Bug("Internet is not working!", bugReporter, 5, "LW-111");
+
+        System.out.println(bug);
+
+        bug.setBugStatus("In progress");
+
+        System.out.println(bug);
     }
 }
