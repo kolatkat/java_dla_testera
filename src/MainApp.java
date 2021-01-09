@@ -1,16 +1,33 @@
-import utils.StringUtiils;
-import utils.WeekUtils;
+import computer.Computer;
+import computer.Hdd;
+import computer.Laptop;
+import computer.Ram;
+import model.Bug;
+import model.BugReporter;
+
 
 public class MainApp {
 
     public static void main(String[] args) {
 
-        String bartekTest = StringUtiils.getFirmattedText("BartekTest");
-        System.out.println(bartekTest);
+        Hdd hdd = new Hdd("Samsung", 500);
+        Ram ram = new Ram("AAA", 128);
 
-        String bartek = StringUtiils.getFirmattedText("Bartek");
+        Computer mac = new Laptop("Mac", "PRO", hdd, ram, 100);
 
-        System.out.println(WeekUtils.Monday);
+        // Inny sposób tworzenia obiektu Computer
+        // Computer mac = new Laptop("Mac", "PRO", hdd, new Ram("AAA", 128), 100)
+
+        System.out.println(mac.getRam().getSize());
+
+
+        BugReporter bugReporter = new BugReporter("Kasia", "Testerka", "kasia@test.pl");
+        Bug bug = new Bug("Internet is not working!", bugReporter, 5, "LW-111");
+
+        System.out.println(bug);
+
+        bug.setBugStatus("In progress");
+
+        System.out.println(bug);
     }
-
 }
