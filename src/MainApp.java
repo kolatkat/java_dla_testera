@@ -1,33 +1,66 @@
-import computer.Computer;
-import computer.Hdd;
-import computer.Laptop;
-import computer.Ram;
+
 import model.Bug;
 import model.BugReporter;
 
+import java.util.*;
 
-public class MainApp {
+public class MainApp<users> {
 
     public static void main(String[] args) {
 
-        Hdd hdd = new Hdd("Samsung", 500);
-        Ram ram = new Ram("AAA", 128);
+        BugReporter bugReporter1 = new BugReporter("Kasia", "Testerka", "kasia@test.pl");
+        BugReporter bugReporter2 = new BugReporter("Asia", "Malinowska", "asia@test.pl");
 
-        Computer mac = new Laptop("Mac", "PRO", hdd, ram, 100);
+        List<Bug> bugs = new ArrayList<>();
 
-        // Inny sposób tworzenia obiektu Computer
-        // Computer mac = new Laptop("Mac", "PRO", hdd, new Ram("AAA", 128), 100)
+        bugs.add(new Bug("Internet is not working!", bugReporter1, 5, "LW-111"));
+        bugs.add(new Bug("Internet is not working!", bugReporter1, 5, "LW-111"));
+        bugs.add(new Bug("An invoice cannot be issued", bugReporter2, 4, "LW-112"));
+        bugs.add(new Bug("No validation for the email field", bugReporter2, 4, "LW-113"));
+        bugs.add(new Bug("No validation for the email field", bugReporter2, 4, "LW-113"));
 
-        System.out.println(mac.getRam().getSize());
+        for (Bug bug : bugs) {
+            System.out.println(bug);
+        }
 
+        List<Bug> uniqueBugs = new ArrayList<>();
 
-        BugReporter bugReporter = new BugReporter("Kasia", "Testerka", "kasia@test.pl");
-        Bug bug = new Bug("Internet is not working!", bugReporter, 5, "LW-111");
+        uniqueBugs.add(bugs.get(0));
 
-        System.out.println(bug);
+        for (int i = 0; i <bugs.size(); i++) {
+            int counter = 0;
+            for (int j = 0; j <uniqueBugs.size(); j++) {
+                if (bugs.get(i).equals(uniqueBugs.get(j))) {
+                    counter = 0;
+                } else {
+                    counter ++;
+                    System.out.println(counter);
+                }
+            }
+            if ( counter > 0) {
+                uniqueBugs.add(bugs.get(i));
+            }
+        }
 
-        bug.setBugStatus("In progress");
+        System.out.println("==============================================");
+        System.out.println("Prezentacja tylko unikalnych błędów, bez dubli");
+        System.out.println("==============================================");
 
-        System.out.println(bug);
+        for (Bug bug : uniqueBugs) {
+            System.out.println(bug);
+        }
+
+        System.out.println("=========================================================");
+        System.out.println("Posortowane unikalne błędy, bez dubli po polu Descryption");
+        System.out.println("=========================================================");
+        Collections.sort(uniqueBugs, Comparator.comparing(Bug::getBugDescription));
+        for (Bug bug : uniqueBugs) {
+            System.out.println(bug);
+        }
+
+        //drugi sposób - sposób Bartka, tworzymy Set-a podając jako argment naszą listę
+        //Set<Bug> uniqueBug = new HashSet<>(bugs);
     }
 }
+
+
