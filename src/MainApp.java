@@ -1,65 +1,100 @@
-
-import model.Bug;
-import model.BugReporter;
+import computer.*;
+import model.User;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class MainApp<users> {
 
     public static void main(String[] args) {
 
-        BugReporter bugReporter1 = new BugReporter("Kasia", "Testerka", "kasia@test.pl");
-        BugReporter bugReporter2 = new BugReporter("Asia", "Malinowska", "asia@test.pl");
+        List<Computer> computers = new ArrayList<>();
+        computers.add(new Laptop("MB Model 1", "PRO 1", new Hdd("HP", 500), new Ram("HP", 128), 100));
+        computers.add(new Laptop("MB Model 2", "PRO 2", new Hdd("HP", 500), new Ram("HP", 128), 100));
+        computers.add(new Laptop("MB Model 3", "PRO 3", new Hdd("HP", 256), new Ram("HP", 128), 100));
+        computers.add(new Laptop("MB Model 4", "PRO 4", new Hdd("HP", 500), new Ram("HP", 128), 100));
+        computers.add(new Laptop("MB Model 5", "PRO 4", new Hdd("HP", 256), new Ram("HP", 128), 100));
+        computers.add(new PC("PC 1", "ABC", new Hdd("HP", 500), new Ram("HP", 128)));
+        computers.add(new PC("PC 2", "BCA", new Hdd("HP", 500), new Ram("HP", 256)));
+        computers.add(new PC("PC 3", "CDE", new Hdd("HP", 256), new Ram("HP", 256)));
 
-        List<Bug> bugs = new ArrayList<>();
+        // Zliczyć wszystkie komputery, które mają więcej niż 128 gb Ram-u
 
-        bugs.add(new Bug("Internet is not working!", bugReporter1, 5, "LW-111"));
-        bugs.add(new Bug("Internet is not working!", bugReporter1, 5, "LW-111"));
-        bugs.add(new Bug("An invoice cannot be issued", bugReporter2, 4, "LW-112"));
-        bugs.add(new Bug("No validation for the email field", bugReporter2, 4, "LW-113"));
-        bugs.add(new Bug("No validation for the email field", bugReporter2, 4, "LW-113"));
+       long count = computers.stream()
+                .filter(comp -> comp.getRam().getSize() > 128)
+                .count();
 
-        for (Bug bug : bugs) {
-            System.out.println(bug);
+        System.out.println("Liczba komputerów, których RAM jest większy > 128 wynosi: " +count);
+
+        // Wyświetlić na konsolę wszystkie typy komputerów - map
+
+        Set<String> uniqeType = computers.stream()
+                .map(comp -> comp.getType())
+                .collect(Collectors.toSet());
+
+        System.out.println("Typy komputerów:");
+        for (String type : uniqeType) {
+            System.out.println(type);
         }
 
-        List<Bug> uniqueBugs = new ArrayList<>();
+        //Wyświetlić komputer, który ma najwięcej ram-u
 
-        uniqueBugs.add(bugs.get(0));
+      Optional<Integer> maxRam = computers.stream()
+                .map(comp -> comp.getRam().getSize())
+                .max(Integer::compareTo);
 
-        for (int i = 0; i <bugs.size(); i++) {
-            int counter = 0;
-            for (int j = 0; j <uniqueBugs.size(); j++) {
-                if (bugs.get(i).equals(uniqueBugs.get(j))) {
-                    counter = 0;
-                } else {
-                    counter ++;
-                    System.out.println(counter);
-                }
-            }
-            if ( counter > 0) {
-                uniqueBugs.add(bugs.get(i));
-            }
+        List<Computer> computersMaxRam = computers.stream()
+                .filter(comp -> comp.getRam().getSize() == maxRam.get())
+                .collect(Collectors.toList());
+
+        System.out.println("Komputery o największej pamięci Ram:");
+        for (Computer comp : computersMaxRam) {
+            System.out.println(comp);
         }
 
-        System.out.println("==============================================");
-        System.out.println("Prezentacja tylko unikalnych błędów, bez dubli");
-        System.out.println("==============================================");
+        //Utworzyć nową kolekcję z komputerami, które mają dysk twardy mniejszy niż 500 gb
 
-        for (Bug bug : uniqueBugs) {
-            System.out.println(bug);
+        List<Computer> computerHardDrive = computers.stream()
+                .filter(comp -> comp.getHdd().getSize() < 500)
+                .collect(Collectors.toList());
+
+        System.out.println("Komputery - dysk twardy mniejszy od 500 gb:");
+        for ( Computer comp : computerHardDrive) {
+            System.out.println(comp);
         }
 
-        System.out.println("=========================================================");
-        System.out.println("Posortowane unikalne błędy, bez dubli po polu Descryption");
-        System.out.println("=========================================================");
-        Collections.sort(uniqueBugs, Comparator.comparing(Bug::getBugDescription));
-        for (Bug bug : uniqueBugs) {
-            System.out.println(bug);
+        //posortowac komputery po nazwie i typie
+
+        List<Computer> sortedList = computers.stream()
+                .sorted(Comparator.comparing(Computer::getName).thenComparing(Computer::getType))
+                .collect(Collectors.toList());
+
+        System.out.println("Posortowane komputery po nazwie i typie");
+        for ( Computer comp : sortedList) {
+            System.out.println(comp);
         }
 
-        //drugi sposób - sposób Bartka, tworzymy Set-a podając jako argment naszą listę
-        //Set<Bug> uniqueBug = new HashSet<>(bugs);
+        //przećwiczyć optional
+        //ifPresent()
+
+        System.out.println("==========================================================");
+        computers.stream()
+                .filter(comp -> comp.getRam().getSize() == maxRam.get())
+                .findFirst()
+                .ifPresent(comp -> System.out.println(comp));
+
+        System.out.println("==========================================================");
+        computers.stream()
+                .filter(comp -> comp.getRam().getSize() > 500)
+                .findFirst()
+                .ifPresentOrElse(comp -> System.out.println(comp), () -> System.out.println("Nie ma komputera o pamięci większej od 500 Mb"));
+
+        System.out.println("==========================================================");
+        computers.stream()
+                .filter(comp -> comp.getRam().getSize() > 500)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException("Nie ma komputera o pamięci większej od 500 Mb"));
+
     }
 }
 

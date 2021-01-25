@@ -1,5 +1,7 @@
 package computer;
 
+import java.util.Objects;
+
 abstract public class Computer {
 
     protected String name;
@@ -70,4 +72,34 @@ abstract public class Computer {
     public abstract int volumeDown();
 
     public abstract int volumeDown(int i);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Computer)) return false;
+        Computer computer = (Computer) o;
+        return state == computer.state &&
+                volumelevel == computer.volumelevel &&
+                Objects.equals(name, computer.name) &&
+                Objects.equals(type, computer.type) &&
+                Objects.equals(hdd, computer.hdd) &&
+                Objects.equals(ram, computer.ram);
+    }
+
+    @Override
+    public String toString() {
+        return "Computer{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", hdd=" + hdd +
+                ", ram=" + ram +
+                ", state=" + state +
+                ", volumelevel=" + volumelevel +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, type, hdd, ram, state, volumelevel);
+    }
 }
