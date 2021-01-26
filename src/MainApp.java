@@ -1,5 +1,6 @@
 import computer.*;
 import model.User;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,6 +37,10 @@ public class MainApp<users> {
         for (String type : uniqeType) {
             System.out.println(type);
         }
+        // Drugi sposób
+        computers.stream()
+                .map(Computer::getType)
+                .forEach(System.out::println);
 
         //Wyświetlić komputer, który ma najwięcej ram-u
 
@@ -51,6 +56,17 @@ public class MainApp<users> {
         for (Computer comp : computersMaxRam) {
             System.out.println(comp);
         }
+
+        // Drugi sposób
+
+        System.out.println("Drugi sposób");
+
+        Computer computer = computers.stream()
+                .max(Comparator.comparingInt(comp -> comp.getRam().getSize()))
+                .orElseThrow(() -> new IllegalStateException("Can not find any computer"));
+
+        System.out.println(computer.getName());
+
 
         //Utworzyć nową kolekcję z komputerami, które mają dysk twardy mniejszy niż 500 gb
 
