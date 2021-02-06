@@ -2,6 +2,6 @@ package utils;
 
 public class WeekUtils {
 
-    public static final String Monday = "Monday";
+    public static final String MONDAY = "Monday";
 
 }

@@ -1,5 +1,7 @@
 package model;
 
+import exceptions.IllegalBugPriorityException;
+
 import java.util.Objects;
 
 public class Bug implements ConsoleNotification, Comparable<Bug> {
@@ -30,12 +32,13 @@ public class Bug implements ConsoleNotification, Comparable<Bug> {
 
     }
 
-    public void setBugPriority(int bugPriority) {
+
+    public void setBugPriority(int bugPriority) throws IllegalBugPriorityException {
 
         if (bugPriority >= 1 & bugPriority <= 5) {
             this.bugPriority = bugPriority;
         } else {
-            System.out.println("Invalid value for bugPriority");
+            throw new IllegalBugPriorityException("Invalid value for bugPriority. Please enter a number from 1 to 5");
         }
     }
 

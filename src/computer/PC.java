@@ -23,16 +23,18 @@ public class PC extends Computer {
 
     @Override
     public int volumeUp(int newVolumeLevel) {
-        if(newVolumeLevel > 0) {
-            if ((volumelevel + newVolumeLevel) <= 100) {
-                return volumelevel +=newVolumeLevel;
-            } else {
-                return volumelevel = 100;
-            }
-        } else {
-            System.out.println("Należy wprowadzić liczbę całkowitą dodatnią");
-            return volumelevel;
-        }
+//        if(newVolumeLevel > 0) {
+//            if ((volumelevel + newVolumeLevel) <= 100) {
+//                return volumelevel +=newVolumeLevel;
+//            } else {
+//                return volumelevel = 100;
+//            }
+//        } else {
+//            System.out.println("Należy wprowadzić liczbę całkowitą dodatnią");
+//            return volumelevel;
+//        }
+        //stosując wyjątki mozna zapisać
+        throw new UnsupportedOperationException("This method is not suppotred for PC");
     }
 
     @Override
